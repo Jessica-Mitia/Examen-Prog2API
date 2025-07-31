@@ -65,22 +65,4 @@ def add_or_update_posts(update_posts: List[PostModel]):
                 posts.append(new_post)
     return JSONResponse({"posts": serialized_posts()}, status_code=200)
 
-app.get('/ping/auth')
-def ping_auth():
-    def check_basic_auth(request: Request):
-        auth = request.headers.get('Authorization')
-    if not auth:
-        return False
-    method, credentials = auth.split(' ', 1)
-    if method.lower() != 'basic':
-        return False
-
-    decoded_credentials = base64.b64decode(credentials).decode('utf-8')
-    username, password = decoded_credentials.split(':', 1)
-    return username == 'admin' and password == '123456'
-    if not check_basic_auth(request):
-        return Response('Accès non autorisé',status=401,mimetype='text/plain')
-    return JSONResponse("Athentifié", status_code=200)
-
-
 
